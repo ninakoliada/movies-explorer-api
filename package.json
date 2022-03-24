@@ -1,0 +1,32 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "https://github.com/pinakoladda/movies-explorer-api.git",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinakoladda/movies-explorer-api.git"
+  },
+  "author": "pinakoladda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pinakoladda/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/pinakoladda/movies-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15"
+  }
+}
