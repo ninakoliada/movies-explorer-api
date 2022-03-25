@@ -1,3 +1,4 @@
+const NotFoundError = require('../errors/not-found-error');
 const Movies = require('../models/movie');
 
 const getMovies = async (req, res, next) => {
@@ -55,7 +56,7 @@ const deleteMovie = async (req, res, next) => {
     const movie = await Movies.findOne({ _id: req.params.id });
 
     if (!movie) {
-      return next('Запрашиваемый фильм не найден');
+      return next(new NotFoundError('Запрашиваемый фильм не найден'));
     }
 
     await movie.remove();

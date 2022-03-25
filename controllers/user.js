@@ -1,3 +1,4 @@
+const AuthError = require('../errors/auth-error');
 const Users = require('../models/user');
 
 const getUsers = async (req, res, next) => {
@@ -48,9 +49,11 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email, password });
+
     if (!user) {
-      return res.status(403).send({ message: 'Неправильные почта или пароль' });
+      return next(new AuthError('Неправильные почта или пароль'));
     }
+
     return res.send(user);
   } catch (error) {
     return next(error);
