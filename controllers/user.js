@@ -5,6 +5,9 @@ const DuplicateError = require('../errors/duplicate-error');
 const NotFoundError = require('../errors/not-found-error');
 const Users = require('../models/user');
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+const isProd = NODE_ENV === 'production';
+
 const getUser = async (req, res, next) => {
   try {
     const data = await Users.findById(req.user._id);
@@ -73,7 +76,7 @@ const login = async (req, res, next) => {
       return next(new AuthError('Неправильные почта или пароль'));
     }
 
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key');
+    const token = jwt.sign({ _id: user._id }, isProd ? JWT_SECRET : 'some-secret-key');
 
     return res
       .cookie('token', token, {
