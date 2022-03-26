@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/auth-error');
 const DuplicateError = require('../errors/duplicate-error');
 const NotFoundError = require('../errors/not-found-error');
@@ -72,7 +73,16 @@ const login = async (req, res, next) => {
       return next(new AuthError('Неправильные почта или пароль'));
     }
 
-    return res.send(user);
+    const token = jwt.sign({ _id: user._id }, 'some-secret-key');
+
+    return res
+      .cookie('token', token, {
+        maxAge: 60 * 60 * 60 * 24,
+        httpOnly: true,
+        // sameSite: 'None',
+        // secure: true,
+      })
+      .send({ message: 'Успешно' });
   } catch (error) {
     return next(error);
   }
