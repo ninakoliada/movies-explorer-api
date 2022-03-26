@@ -1,4 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
+const urlValidator = require('./utils/urlValidator');
 
 const createMovieValidator = celebrate({
   body: {
@@ -7,12 +8,12 @@ const createMovieValidator = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().uri(),
+    image: urlValidator,
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().uri(),
+    thumbnail: urlValidator,
     movieId: Joi.string().required(),
-    trailerLink: Joi.string().required().uri(),
+    trailerLink: urlValidator,
   },
 });
 
