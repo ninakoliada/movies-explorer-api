@@ -5,9 +5,9 @@ const DuplicateError = require('../errors/duplicate-error');
 const NotFoundError = require('../errors/not-found-error');
 const Users = require('../models/user');
 
-const getUsers = async (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
-    const data = await Users.find();
+    const data = await Users.findById(req.user._id);
 
     return res.send(data);
   } catch (error) {
@@ -88,9 +88,16 @@ const login = async (req, res, next) => {
   }
 };
 
+const signout = (req, res) => res.clearCookie('token', {
+  httpOnly: true,
+  sameSite: 'None',
+  secure: true,
+}).send({ message: 'До новых встреч!' });
+
 module.exports = {
-  getUsers,
+  getUser,
   createUser,
   updateUser,
   login,
+  signout,
 };

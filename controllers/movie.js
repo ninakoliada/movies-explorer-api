@@ -1,3 +1,4 @@
+const ForbiddenError = require('../errors/forbidden-error');
 const NotFoundError = require('../errors/not-found-error');
 const Movies = require('../models/movie');
 
@@ -20,12 +21,10 @@ const createMovie = async (req, res, next) => {
       year,
       description,
       image,
-      trailer,
       nameRU,
       nameEN,
       thumbnail,
       movieId,
-      owner,
       trailerLink,
     } = req.body;
 
@@ -36,13 +35,12 @@ const createMovie = async (req, res, next) => {
       year,
       description,
       image,
-      trailer,
       nameRU,
       nameEN,
       thumbnail,
       movieId,
-      owner,
       trailerLink,
+      owner: req.user._id,
     });
 
     return res.send(movie);
@@ -57,6 +55,10 @@ const deleteMovie = async (req, res, next) => {
 
     if (!movie) {
       return next(new NotFoundError('Запрашиваемый фильм не найден'));
+    }
+
+    if (String(movie.owner) !== req.user._id) {
+      return next(new ForbiddenError('Нет прав на удаление этого фильма'));
     }
 
     await movie.remove();

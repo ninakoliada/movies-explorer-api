@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-const { getUsers } = require('../controllers/user');
+const { updateUser, getUser, signout } = require('../controllers/user');
+const { updateUserValidator } = require('../validators/userValidator');
 
-router.get('/users', getUsers);
-
-// router.patch('/users/me', updateUser);
-// router.post('/signin', )
+router.patch('/users/me', updateUserValidator, updateUser);
+router.get('/users/me', getUser);
+router.get('/signout', signout);
 
 module.exports = router;
