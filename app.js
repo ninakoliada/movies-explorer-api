@@ -6,14 +6,10 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
-const { createUser, login } = require('./controllers/user');
-const routes = require('./routes');
-
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error');
 const NotFoundError = require('./errors/not-found-error');
 const auth = require('./middlewares/auth');
-const { createUserValidator, loginValidator } = require('./validators/userValidator');
 const limitter = require('./middlewares/limitter');
 
 const { PORT = 3000, NODE_ENV, DB_NAME } = process.env;
@@ -34,12 +30,12 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.post('/signup', createUserValidator, createUser);
-app.post('/signin', loginValidator, login);
+app.use(require('./routes/registration'));
 
 app.use(auth);
 
-app.use(routes);
+app.use(require('./routes/user'));
+app.use(require('./routes/movie'));
 
 app.use((req, res, next) => {
   next(new NotFoundError('Не найдено'));
