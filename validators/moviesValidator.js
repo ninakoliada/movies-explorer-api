@@ -12,7 +12,7 @@ const createMovieValidator = celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: urlValidator,
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     trailerLink: urlValidator,
   },
 });
