@@ -34,6 +34,10 @@ const updateUser = async (req, res, next) => {
 
     return res.send(user);
   } catch (error) {
+    if (error.code === 11000) {
+      return next(new DuplicateError('Пользователь с таким email уже зарегистрирован'));
+    }
+
     return next(error);
   }
 };
