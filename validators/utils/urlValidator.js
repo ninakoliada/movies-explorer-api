@@ -1,7 +1,7 @@
 const { Joi } = require('celebrate');
 const validator = require('validator');
 
-module.exports = Joi.string().custom((value, helper) => {
+module.exports = Joi.string().required().custom((value, helper) => {
   const result = validator.isURL(value, { require_protocol: true });
 
   if (!result) {
